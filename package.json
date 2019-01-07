@@ -1,0 +1,30 @@
+{
+  "name": "use-svg-sprite",
+  "description": "```bash\r $ npm install use-svg\r ```",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">= 8"
+  },
+  "devDependencies": {
+    "webpack": "^3.0.0"
+  },
+  "keywords": [
+    "vuejs",
+    "svg",
+    "vue"
+  ],
+  "homepage": "https://github.com/d-uvarov/use-svg",
+  "author": "Dmitry Uvarov (https://github.com/d-uvarov)",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-uvarov/use-svg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/d-uvarov/use-svg/issues"
+  }
+}
