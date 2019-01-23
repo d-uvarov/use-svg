@@ -27,6 +27,8 @@ module.exports = function (content) {
     this.cacheable && this.cacheable();
 
     let options = this.query;
+    let insertBasename = false;
+    let publicPath = '';
 
     if (!options.path || !options.path.trim()) {
         throw new Error(
@@ -40,10 +42,14 @@ module.exports = function (content) {
         );
     }
 
+    if (options.publicPath) {
+        insertBasename = true;
+        publicPath = options.publicPath.trim();
+    }
+
     if (regExp.test(content)) {
         let svgFolder = path.resolve(options.path);
         let output = path.resolve(options.output);
-        let insertBasename = options.basename === false ? false : true;
 
         content = content.replace(new RegExp(regExp, 'g'), function (tag) {
             let id = getAttrValue('id', tag);
@@ -79,7 +85,7 @@ module.exports = function (content) {
 
             let out = `
                 <svg class="${id}">
-                	<use class="${id}" xlink:href="${insertBasename ? path.basename(output) : ''}#${id}"></use>
+                	<use class="${id}" xlink:href="${insertBasename ? publicPath + path.basename(output) : ''}#${id}"></use>
                 </svg>
             `;
 

@@ -1,7 +1,7 @@
 {
   "name": "use-svg-sprite",
   "description": "```bash\r $ npm install use-svg\r ```",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": ">= 8"
   },
