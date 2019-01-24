@@ -23,12 +23,24 @@ function getAttrValue(attr, content) {
     return find;
 }
 
+/**
+ *
+ * @param attr
+ * @param content
+ * @returns {*}
+ */
+function removeAttr(attr, content) {
+    let regx = new RegExp(`${attr}="(.+?)"`, "g");
+    return content.replace(regx, '');
+}
+
 module.exports = function (content) {
     this.cacheable && this.cacheable();
 
     let options = this.query;
     let insertBasename = false;
     let publicPath = '';
+    let removeAttrs = options.removeAttributes && Array.isArray(options.removeAttributes) ? options.removeAttributes : [] ;
 
     if (!options.path || !options.path.trim()) {
         throw new Error(
@@ -53,6 +65,8 @@ module.exports = function (content) {
 
         content = content.replace(new RegExp(regExp, 'g'), function (tag) {
             let id = getAttrValue('id', tag);
+            let fill = getAttrValue('fill', tag);
+            let classList = getAttrValue('class', tag);
 
             if (id === null) {
                 throw new Error(
@@ -83,8 +97,14 @@ module.exports = function (content) {
                 bodySvg = bodySvg[1];
             }
 
+            if (removeAttrs.length) {
+                for (let key in removeAttrs) {
+                    bodySvg = removeAttr(removeAttrs[key], bodySvg);
+                }
+            }
+
             let out = `
-                <svg class="${id}">
+                <svg ${fill ? `fill=${fill}` : ''} class="${id} ${classList}">
                 	<use class="${id}" xlink:href="${insertBasename ? publicPath + path.basename(output) : ''}#${id}"></use>
                 </svg>
             `;
@@ -106,8 +126,6 @@ module.exports = function (content) {
                 if (err) {
                     return console.error(err);
                 }
-
-                console.log("The file was saved!");
             });
 
             return out;
